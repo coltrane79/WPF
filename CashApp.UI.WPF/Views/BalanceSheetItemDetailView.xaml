@@ -1,0 +1,159 @@
+﻿<UserControl x:Class="CashApp.UI.WPF.Views.BalanceSheetItemDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:conv="clr-namespace:CashApp.UI.WPF.Converters"
+             xmlns:local="clr-namespace:CashApp.UI.WPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="500">
+    <UserControl.Resources>
+        <conv:StringConverter x:Key="StringConversion"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="12*"/>
+            <RowDefinition Height="13*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+            <Label Content="SalesPerson"/>
+            <Label Content="Date"/>
+            <Label Content="Float Start"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2">
+            <Button Margin="0,22,0,0" VerticalAlignment="Center" Content="Update Balance Sheet" Height="50"
+                    Command="{Binding SaveCommand}"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
+            <TextBox Width="100" HorizontalAlignment="Left" Margin="0,5,0,0" 
+                     Text="{Binding CashBalanceSheetProperty.SalesPerson, 
+                                    Mode=TwoWay, 
+                                    Converter={StaticResource StringConversion}}"/>
+            <TextBox Width="100" HorizontalAlignment="Left" Margin="0,7,0,0" 
+                     Text="{Binding CashBalanceSheetProperty.Date, 
+                                    Mode=TwoWay, 
+                                    Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="100" HorizontalAlignment="Left" Margin="0,7,0,0" 
+                     Text="{Binding CashBalanceSheetProperty.FloatStart, 
+                                    Mode=TwoWay, 
+                                    Converter={StaticResource StringConversion }}"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+            <Label Content="Cash Totals" FontSize="12"/>
+            <Label Content="Hundred"/>
+            <Label Content="Fifty"/>
+            <Label Content="Twenty"/>
+            <Label Content="Ten"/>
+            <Label Content="Five"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1">
+            <Label  Margin="0,11,0,0"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" 
+                     Text="{Binding CashBalanceSheetProperty.CashTotals.hundred, 
+                                    Mode=TwoWay, 
+                                    Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" 
+                     Text="{Binding CashBalanceSheetProperty.CashTotals.fifty, 
+                                    Mode=TwoWay, 
+                                    Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" 
+                     Text="{Binding CashBalanceSheetProperty.CashTotals.twenty, 
+                                    Mode=TwoWay, 
+                                    Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" 
+                     Text="{Binding CashBalanceSheetProperty.CashTotals.ten, 
+                                    Mode=TwoWay, 
+                                    Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" 
+                     Text="{Binding CashBalanceSheetProperty.CashTotals.five, 
+                                    Mode=TwoWay, 
+                                    Converter={StaticResource StringConversion }}"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
+            <Label  Margin="0,11,0,0"/>
+            <Label Content="Two"/>
+            <Label Content="One"/>
+            <Label Content="Quarter"/>
+            <Label Content="Dime"/>
+            <Label Content="Nickel"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3">
+            <Label  Margin="0,11,0,0"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" 
+                     Text="{Binding CashBalanceSheetProperty.CashTotals.two, 
+                                    Mode=TwoWay, 
+                                    Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" 
+                     Text="{Binding CashBalanceSheetProperty.CashTotals.one, 
+                                    Mode=TwoWay, 
+                                    Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" 
+                     Text="{Binding CashBalanceSheetProperty.CashTotals.quarter, 
+                                    Mode=TwoWay, 
+                                    Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" 
+                     Text="{Binding CashBalanceSheetProperty.CashTotals.dime, 
+                                    Mode=TwoWay, 
+                                    Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" 
+                     Text="{Binding CashBalanceSheetProperty.CashTotals.nickel, 
+                                    Mode=TwoWay, 
+                                    Converter={StaticResource StringConversion }}"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="4">
+            <Label  Margin="0,11,0,0"/>
+            <Label Content="Total Cash" HorizontalAlignment="Center"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0">
+            <Label Content="Card Totals" FontSize="12"/>
+            <Label Content="Debit"/>
+            <Label Content="MasterCard"/>
+            <Label Content="Visa"/>
+            <Label Content="Amex"/>
+            <Label Content="Other"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="1">
+            <Label  Margin="0,11,0,0"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left"  Text="{Binding CashBalanceSheetProperty.Debit.Amount, Mode=TwoWay, Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" Text="{Binding CashBalanceSheetProperty.MasterCard.Amount, Mode=TwoWay, Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" Text="{Binding CashBalanceSheetProperty.Visa.Amount, Mode=TwoWay, Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" Text="{Binding CashBalanceSheetProperty.Amex.Amount, Mode=TwoWay, Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" Text="{Binding CashBalanceSheetProperty.Other.Amount, Mode=TwoWay, Converter={StaticResource StringConversion }}"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="2">
+            <Label Content="Other Daily Totals" FontSize="12"/>
+            <Label Content="Cheque"/>
+            <Label Content="Cash Out (Disbursement)"/>
+            <Label Content="Returns"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="3">
+            <Label  Margin="0,13,0,0"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left"  Text="{Binding CashBalanceSheetProperty.ChequeTotal, Mode=TwoWay, Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" Text="{Binding CashBalanceSheetProperty.Disbursement, Mode=TwoWay, Converter={StaticResource StringConversion }}"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left" Text="{Binding CashBalanceSheetProperty.Returns, Mode=TwoWay, Converter={StaticResource StringConversion }}"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="0">
+            <Label Content="Summary: " FontSize="12"/>
+            <Label Content="Variance"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="1">
+            <Label  Margin="0,13,0,0"/>
+            <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left"  Text="{Binding CashBalanceSheetProperty.Variance, Mode=TwoWay, Converter={StaticResource StringConversion }}"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2">
+            <Label Content="Zreads" FontSize="12"/>
+            <Button Content="Open Z-Reads"></Button>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

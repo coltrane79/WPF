@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{1D78B4F4-D3AF-4037-9434-045FA28EA483}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{1899592D-F3C2-4CAF-A07E-DA0AF9AF07E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashApp.Data", "CashApp.Data\CashApp.Data.csproj", "{9BA7A50B-45FC-4300-B23A-6BCF129CF3B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashApp.Model", "CashApp.Model\CashApp.Model.csproj", "{EAFD4471-304B-4CC1-8C25-E999264480F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{66ECCB85-7CAB-49CD-92B4-746E8DA4EF36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashApp.UI.WPF", "CashApp.UI.WPF\CashApp.UI.WPF.csproj", "{E380049C-91F8-48CB-AD2E-51EBD663B6D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9BA7A50B-45FC-4300-B23A-6BCF129CF3B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BA7A50B-45FC-4300-B23A-6BCF129CF3B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BA7A50B-45FC-4300-B23A-6BCF129CF3B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BA7A50B-45FC-4300-B23A-6BCF129CF3B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAFD4471-304B-4CC1-8C25-E999264480F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAFD4471-304B-4CC1-8C25-E999264480F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAFD4471-304B-4CC1-8C25-E999264480F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAFD4471-304B-4CC1-8C25-E999264480F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E380049C-91F8-48CB-AD2E-51EBD663B6D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E380049C-91F8-48CB-AD2E-51EBD663B6D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E380049C-91F8-48CB-AD2E-51EBD663B6D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E380049C-91F8-48CB-AD2E-51EBD663B6D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9BA7A50B-45FC-4300-B23A-6BCF129CF3B8} = {1899592D-F3C2-4CAF-A07E-DA0AF9AF07E6}
+		{EAFD4471-304B-4CC1-8C25-E999264480F9} = {1D78B4F4-D3AF-4037-9434-045FA28EA483}
+		{E380049C-91F8-48CB-AD2E-51EBD663B6D3} = {66ECCB85-7CAB-49CD-92B4-746E8DA4EF36}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ECAD2894-6124-497C-A02C-4657889C83A6}
+	EndGlobalSection
+EndGlobal
