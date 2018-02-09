@@ -16,7 +16,8 @@ namespace CashApp.UI.WPF.ViewModel
         private Func<BalanceSheetItemDetailViewModel> _balanceSheetItemDetailViewModelCreator;
         private IEventAggregator _eventAggregator { get; }
         private IMessageDialogService _messageDialogService;
-        public MainViewModel(BalanceSheetNavidationViewModel BSNavigationViewModel, Func<BalanceSheetItemDetailViewModel>
+        public MainViewModel(BalanceSheetNavidationViewModel BSNavigationViewModel, 
+            Func<BalanceSheetItemDetailViewModel>
             BSItemDetailViewCreator, IEventAggregator EventAggregator,
             IMessageDialogService messageDialogService)
         {
