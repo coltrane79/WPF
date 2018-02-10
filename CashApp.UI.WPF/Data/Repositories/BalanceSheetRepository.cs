@@ -18,6 +18,12 @@ namespace CashApp.UI.WPF.Data.Repositories
         {
             _context = Context;
         }
+
+        public void Add(CashBalanceSheet balanceSheet)
+        {
+            _context.CashBalanceSheets.Add(balanceSheet);
+        }
+
         public async Task<CashBalanceSheet> GetByIdAsync(int id)
         {
             return await _context.CashBalanceSheets

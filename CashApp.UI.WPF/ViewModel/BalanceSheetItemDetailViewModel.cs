@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Events;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System;
 
 namespace CashApp.UI.WPF.ViewModel
 {
@@ -70,9 +71,12 @@ namespace CashApp.UI.WPF.ViewModel
             }
         }
 
-        public async Task LoadAsync(int Id)
-        {
-            CashBalanceSheet newBalanceSheet = await _balanceSheetRepository.GetByIdAsync(Id);
+        public async Task LoadAsync(int? Id)
+        {            
+            var newBalanceSheet = Id.HasValue
+                ? await _balanceSheetRepository.GetByIdAsync(Id.Value)
+                : CreateNewBalanceSheet();
+
             CashBalanceSheetProperty = new BalanceSheetModelWrapper(newBalanceSheet);
 
             
@@ -90,5 +94,11 @@ namespace CashApp.UI.WPF.ViewModel
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
 
+        private CashBalanceSheet CreateNewBalanceSheet()
+        {
+            var balanceSheet = new CashBalanceSheet();
+            _balanceSheetRepository.Add(balanceSheet);
+            return balanceSheet;
+        }
     }
 }

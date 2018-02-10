@@ -20,7 +20,7 @@ namespace CashApp.Model.Model
         public decimal CashInDrawer { get; set; }
         public ZRead()
         {
-
+            ZReadDate = DateTime.Today;
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using CashApp.UI.WPF.Event;
 using CashApp.UI.WPF.Views.Services;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace CashApp.UI.WPF.ViewModel
 {
@@ -17,8 +19,8 @@ namespace CashApp.UI.WPF.ViewModel
         private IEventAggregator _eventAggregator { get; }
         private IMessageDialogService _messageDialogService;
         public MainViewModel(BalanceSheetNavidationViewModel BSNavigationViewModel, 
-            Func<BalanceSheetItemDetailViewModel>
-            BSItemDetailViewCreator, IEventAggregator EventAggregator,
+            Func<BalanceSheetItemDetailViewModel> BSItemDetailViewCreator, 
+            IEventAggregator EventAggregator,
             IMessageDialogService messageDialogService)
         {
             _balanceSheetNavigationViewModel = BSNavigationViewModel;
@@ -28,7 +30,9 @@ namespace CashApp.UI.WPF.ViewModel
 
             _eventAggregator.GetEvent<OpenBalanceSheetDetailEvent>()
                 .Subscribe(OnOpenBalanceSheetDetail);
-        }        
+            OnCreateNewBalanceSheet = new DelegateCommand(CreateNewBalanceSheet);
+        }       
+
         public BalanceSheetNavidationViewModel BalanceSheetNavigationViewModel
         {
             get { return _balanceSheetNavigationViewModel; }
@@ -55,8 +59,13 @@ namespace CashApp.UI.WPF.ViewModel
         { 
             await _balanceSheetNavigationViewModel.LoadAsync();
         }
+        public ICommand OnCreateNewBalanceSheet { get; private set; }
 
-        private async void OnOpenBalanceSheetDetail(int balanceSheetId)
+        private void CreateNewBalanceSheet()
+        {
+            OnOpenBalanceSheetDetail(null);
+        }
+        private async void OnOpenBalanceSheetDetail(int? balanceSheetId)
         {
             if(BalanceSheetItemDetailViewModel != null && BalanceSheetItemDetailViewModel.HasChanges)
             {

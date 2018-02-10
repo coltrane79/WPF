@@ -23,8 +23,15 @@ namespace CashApp.UI.WPF.ViewModel
 
         private void AfterFriendSaveEvent(BalanceSheetSavedEventArgs updatedBalanceSheet)
         {
-            var SelectedItem = BalanceSheets.Single(bs => bs.Id == updatedBalanceSheet.Id);
-            SelectedItem.DisplayMember = updatedBalanceSheet.Date;
+            var SelectedItem = BalanceSheets.SingleOrDefault(bs => bs.Id == updatedBalanceSheet.Id);
+            if(SelectedItem == null)
+            {
+                BalanceSheets.Add(new BalanceSheetNavigationItemViewModel(updatedBalanceSheet.Id,
+                    updatedBalanceSheet.Date.ToString(), _eventAggregtor));
+            } else
+            {
+                SelectedItem.DisplayMember = updatedBalanceSheet.Date;
+            }            
         }
 
         public async Task LoadAsync()

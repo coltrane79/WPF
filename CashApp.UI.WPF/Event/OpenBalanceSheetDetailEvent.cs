@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CashApp.UI.WPF.Event
 {
-    public class OpenBalanceSheetDetailEvent: PubSubEvent<int>
+    public class OpenBalanceSheetDetailEvent: PubSubEvent<int?>
     {
     }
 }

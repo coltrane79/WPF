@@ -4,7 +4,7 @@ namespace CashApp.UI.WPF.ViewModel
 {
     public interface IBalanceSheetItemDetailViewModel
     {
-        Task LoadAsync(int Id);
+        Task LoadAsync(int? Id);
         bool HasChanges { get; }
     }
 }

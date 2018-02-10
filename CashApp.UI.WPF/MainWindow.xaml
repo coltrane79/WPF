@@ -19,17 +19,22 @@
     </Window.Resources>
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
-            <RowDefinition Height="500"/>
+            <RowDefinition Height="20"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <view:BalanceSheetNavigation Grid.Row="0"
+        <Menu Grid.ColumnSpan="2">
+            <MenuItem Header="Create">
+                <MenuItem Header="New Balance Sheet" Command="{Binding OnCreateNewBalanceSheet}"/>
+            </MenuItem>
+        </Menu>
+        <view:BalanceSheetNavigation Grid.Row="1"
                                      Grid.Column="0"
                                      DataContext="{Binding BalanceSheetNavigationViewModel}"/>
-        <view:BalanceSheetItemDetailView Grid.Row="0"
+        <view:BalanceSheetItemDetailView Grid.Row="1"
                                          Grid.Column="1"
                                          DataContext="{Binding BalanceSheetItemDetailViewModel}"/>
         <ContentPresenter Grid.Row="2"></ContentPresenter>
