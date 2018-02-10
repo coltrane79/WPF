@@ -1,8 +1,7 @@
 namespace CashApp.Data.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class AddRequiredFields : DbMigration
     {
         public override void Up()
