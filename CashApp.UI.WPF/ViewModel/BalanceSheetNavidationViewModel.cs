@@ -10,7 +10,7 @@ namespace CashApp.UI.WPF.ViewModel
     public class BalanceSheetNavidationViewModel : ViewModelBase
     {
         private IBalanceSheetLookupItem _bsLookupItem;
-        private IEventAggregator _eventAggregtor; 
+        private IEventAggregator _eventAggregtor;
         public BalanceSheetNavidationViewModel(IBalanceSheetLookupItem bsLookupItem,
             IEventAggregator eventAggregator)
         {
@@ -24,14 +24,15 @@ namespace CashApp.UI.WPF.ViewModel
         private void AfterFriendSaveEvent(BalanceSheetSavedEventArgs updatedBalanceSheet)
         {
             var SelectedItem = BalanceSheets.SingleOrDefault(bs => bs.Id == updatedBalanceSheet.Id);
-            if(SelectedItem == null)
+            if (SelectedItem == null)
             {
                 BalanceSheets.Add(new BalanceSheetNavigationItemViewModel(updatedBalanceSheet.Id,
                     updatedBalanceSheet.Date.ToString(), _eventAggregtor));
-            } else
+            }
+            else
             {
                 SelectedItem.DisplayMember = updatedBalanceSheet.Date;
-            }            
+            }
         }
 
         public async Task LoadAsync()
@@ -41,10 +42,10 @@ namespace CashApp.UI.WPF.ViewModel
             foreach (var bs in lookup)
             {
                 BalanceSheets.Add(new BalanceSheetNavigationItemViewModel(bs.Id, bs.DisplayMember.ToShortDateString(),
-                    _eventAggregtor));                
+                    _eventAggregtor));
             }
         }
         public ObservableCollection<BalanceSheetNavigationItemViewModel> BalanceSheets { get; }
-       
+
     }
 }
