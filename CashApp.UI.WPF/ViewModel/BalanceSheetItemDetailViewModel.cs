@@ -17,14 +17,11 @@ namespace CashApp.UI.WPF.ViewModel
         private IEventAggregator _eventAggregator;
         private bool _hasChanges;
 
-        
-
-
-        public BalanceSheetItemDetailViewModel(IBalanceSheetRespository BalanceSheetRepository, 
+        public BalanceSheetItemDetailViewModel(IBalanceSheetRespository BalanceSheetRepository,
             IEventAggregator eventAggregator)
         {
             _balanceSheetRepository = BalanceSheetRepository;
-            _eventAggregator = eventAggregator;            
+            _eventAggregator = eventAggregator;
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
         }
@@ -72,14 +69,14 @@ namespace CashApp.UI.WPF.ViewModel
         }
 
         public async Task LoadAsync(int? Id)
-        {            
+        {
             var newBalanceSheet = Id.HasValue
                 ? await _balanceSheetRepository.GetByIdAsync(Id.Value)
                 : CreateNewBalanceSheet();
 
             CashBalanceSheetProperty = new BalanceSheetModelWrapper(newBalanceSheet);
 
-            
+
             CashBalanceSheetProperty.PropertyChanged += (s, e) =>
             {
                 if (!HasChanges)
