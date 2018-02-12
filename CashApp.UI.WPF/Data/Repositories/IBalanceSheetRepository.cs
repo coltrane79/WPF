@@ -14,5 +14,6 @@ namespace CashApp.UI.WPF.Data.Repositories
         Task SaveAsync();
         bool HasChanges();
         void Add(CashBalanceSheet balanceSheet);
+        void DeletebyIdAsync(CashBalanceSheet balanceSheet);
     }
 }

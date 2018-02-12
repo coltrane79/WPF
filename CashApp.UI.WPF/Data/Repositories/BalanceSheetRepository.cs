@@ -23,6 +23,12 @@ namespace CashApp.UI.WPF.Data.Repositories
         {
             _context.CashBalanceSheets.Add(balanceSheet);
         }
+       
+
+        public void DeletebyIdAsync(CashBalanceSheet balanceSheet)
+        {
+            _context.CashBalanceSheets.Remove(balanceSheet);            
+        }
 
         public async Task<CashBalanceSheet> GetByIdAsync(int id)
         {

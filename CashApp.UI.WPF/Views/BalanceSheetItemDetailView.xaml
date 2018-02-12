@@ -30,8 +30,10 @@
             <Label Content="Float Start"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2">
-            <Button Margin="0,22,0,0" VerticalAlignment="Center" Content="Update Balance Sheet" Height="50"
+            <Button Margin="0,22,0,0" VerticalAlignment="Top" Content="Update Balance Sheet" Height="25"
                     Command="{Binding SaveCommand}"/>
+            <Button Margin="0,22,0,0" VerticalAlignment="Top" Content="Delete Balance Sheet" Height="25"
+                    Command="{Binding DeleteCommand}"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
             <TextBox Width="100" HorizontalAlignment="Left" Margin="0,5,0,0" 

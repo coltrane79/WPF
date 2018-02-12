@@ -7,6 +7,7 @@ using Prism.Events;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System;
+using CashApp.UI.WPF.Views.Services;
 
 namespace CashApp.UI.WPF.ViewModel
 {
@@ -24,8 +25,10 @@ namespace CashApp.UI.WPF.ViewModel
             _eventAggregator = eventAggregator;
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
+            DeleteCommand = new DelegateCommand(OnDeleteExecute, OnDeleteCanExecute);
         }
 
+       
         private bool OnSaveCanExecute()
         {
             return CashBalanceSheetProperty != null && !CashBalanceSheetProperty.HasErrors && HasChanges;
@@ -54,6 +57,7 @@ namespace CashApp.UI.WPF.ViewModel
         }
 
         public ICommand SaveCommand { get; }
+        public ICommand DeleteCommand { get; }
         public bool HasChanges
         {
             get { return _hasChanges; }
@@ -97,5 +101,27 @@ namespace CashApp.UI.WPF.ViewModel
             _balanceSheetRepository.Add(balanceSheet);
             return balanceSheet;
         }
+
+        private bool OnDeleteCanExecute()
+        {
+            return true;    
+        }
+
+        private async void OnDeleteExecute()
+        {
+            var result = new MessageDialogService().
+                ShowOkCancelDialog("Do you really want to Delete?", "Delete Balance Sheet");
+            if (result == MessageDialogResult.Ok)
+            {
+                _balanceSheetRepository.DeletebyIdAsync(CashBalanceSheetProperty.Model);
+                await _balanceSheetRepository.SaveAsync();
+                _eventAggregator.GetEvent<AfterBalanceSheetDeletedEvent>()
+                    .Publish(new BalanceSheetSavedEventArgs()
+                    {
+                        Id = CashBalanceSheetProperty.Id
+                    });
+            }
+        }
+
     }
 }

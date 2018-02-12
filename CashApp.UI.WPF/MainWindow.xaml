@@ -7,7 +7,7 @@
         xmlns:viewModel="clr-namespace:CashApp.UI.WPF.ViewModel"
         xmlns:local="clr-namespace:CashApp.UI.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="725"
+        Title="Cash Balance Sheet Organizer" Height="550" Width="725"
         Loaded="Window_Loaded">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:BalanceSheetNavidationViewModel}">
@@ -34,9 +34,8 @@
         <view:BalanceSheetNavigation Grid.Row="1"
                                      Grid.Column="0"
                                      DataContext="{Binding BalanceSheetNavigationViewModel}"/>
-        <view:BalanceSheetItemDetailView Grid.Row="1"
-                                         Grid.Column="1"
-                                         DataContext="{Binding BalanceSheetItemDetailViewModel}"/>
-        <ContentPresenter Grid.Row="2"></ContentPresenter>
+        <ContentControl Grid.Row="1"
+                        Grid.Column="1"
+                        Content="{Binding BalanceSheetItemDetailViewModel}"/>
     </Grid>
 </Window>

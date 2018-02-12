@@ -30,8 +30,13 @@ namespace CashApp.UI.WPF.ViewModel
 
             _eventAggregator.GetEvent<OpenBalanceSheetDetailEvent>()
                 .Subscribe(OnOpenBalanceSheetDetail);
+            _eventAggregator.GetEvent<AfterBalanceSheetDeletedEvent>()
+                .Subscribe(OnBalanceSheetDeleted);
+
             OnCreateNewBalanceSheet = new DelegateCommand(CreateNewBalanceSheet);
-        }       
+        }
+
+        
 
         public BalanceSheetNavidationViewModel BalanceSheetNavigationViewModel
         {
@@ -77,6 +82,11 @@ namespace CashApp.UI.WPF.ViewModel
             }
             BalanceSheetItemDetailViewModel = _balanceSheetItemDetailViewModelCreator();
             await BalanceSheetItemDetailViewModel.LoadAsync(balanceSheetId);
+        }
+
+        private void OnBalanceSheetDeleted(BalanceSheetSavedEventArgs obj)
+        {
+            BalanceSheetItemDetailViewModel = null;
         }
 
     }

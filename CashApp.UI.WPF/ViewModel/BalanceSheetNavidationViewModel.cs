@@ -4,6 +4,8 @@ using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 
 namespace CashApp.UI.WPF.ViewModel
 {
@@ -19,6 +21,16 @@ namespace CashApp.UI.WPF.ViewModel
             BalanceSheets = new ObservableCollection<BalanceSheetNavigationItemViewModel>();
             _eventAggregtor.GetEvent<AfterBalanceSheetSavedEvent>()
                 .Subscribe(AfterFriendSaveEvent);
+            _eventAggregtor.GetEvent<AfterBalanceSheetDeletedEvent>()
+                .Subscribe(AfterBalanceSheetDeleted);
+
+        }
+
+        private void AfterBalanceSheetDeleted(BalanceSheetSavedEventArgs balanceSheet)
+        {
+            var balSheet = BalanceSheets.Where(item => item.Id == balanceSheet.Id);
+            if(balSheet != null)
+                BalanceSheets.Remove(balSheet.SingleOrDefault());
         }
 
         private void AfterFriendSaveEvent(BalanceSheetSavedEventArgs updatedBalanceSheet)
