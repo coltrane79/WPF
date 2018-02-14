@@ -6,7 +6,7 @@
              xmlns:conv="clr-namespace:CashApp.UI.WPF.Converters"
              xmlns:local="clr-namespace:CashApp.UI.WPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="500">
+             d:DesignHeight="500" d:DesignWidth="800">
     <UserControl.Resources>
         <conv:StringConverter x:Key="StringConversion"/>
     </UserControl.Resources>
@@ -15,6 +15,8 @@
             <RowDefinition Height="100"/>
             <RowDefinition Height="12*"/>
             <RowDefinition Height="13*"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition />
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -36,10 +38,11 @@
                     Command="{Binding DeleteCommand}"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
-            <TextBox Width="100" HorizontalAlignment="Left" Margin="0,5,0,0" 
-                     Text="{Binding CashBalanceSheetProperty.SalesPerson, 
-                                    Mode=TwoWay, 
-                                    Converter={StaticResource StringConversion}}"/>
+            <ComboBox Width="150" HorizontalAlignment="Left" Margin ="0,5,0,0"
+                       ItemsSource="{Binding SalesPeople}"
+                       DisplayMemberPath="DisplayMember"
+                       SelectedValuePath="Id"
+                      SelectedValue="{Binding CashBalanceSheetProperty.SalesPerson.Id, Mode=TwoWay}"/>
             <TextBox Width="100" HorizontalAlignment="Left" Margin="0,7,0,0" 
                      Text="{Binding CashBalanceSheetProperty.Date, 
                                     Mode=TwoWay, 
@@ -152,10 +155,14 @@
             <Label  Margin="0,13,0,0"/>
             <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left"  Text="{Binding CashBalanceSheetProperty.Variance, Mode=TwoWay, Converter={StaticResource StringConversion }}"/>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2">
-            <Label Content="Zreads" FontSize="12"/>
-            <Button Content="Open Z-Reads"></Button>
-        </StackPanel>
+        <DockPanel Grid.Row="5" Grid.ColumnSpan="6" Margin="10">
+            <!--StackPanel DockPanel.Dock="Right">
+                <Button Content="Add" Margin="10" Command="{Binding AddZread}"/>
+                <Button Content="Remove" Margin="10" Command="{Binding DeleteZread}"/>
+            </StackPanel>-->
+            <DataGrid ItemsSource="{Binding ZReads}" Width="500" AutoGenerateColumns="True">
+            </DataGrid>
+        </DockPanel>
 
     </Grid>
 </UserControl>

@@ -7,7 +7,7 @@
         xmlns:viewModel="clr-namespace:CashApp.UI.WPF.ViewModel"
         xmlns:local="clr-namespace:CashApp.UI.WPF"
         mc:Ignorable="d"
-        Title="Cash Balance Sheet Organizer" Height="550" Width="725"
+        Title="Cash Balance Sheet Organizer" Height="550" Width="800"
         Loaded="Window_Loaded">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:BalanceSheetNavidationViewModel}">

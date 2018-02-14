@@ -95,6 +95,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\StringConverter.cs" />
+    <Compile Include="Data\Lookups\ISalesPersonLookupItem.cs" />
+    <Compile Include="Data\Lookups\IZReadsLookup.cs" />
     <Compile Include="Data\Repositories\BalanceSheetRepository.cs" />
     <Compile Include="Data\Repositories\IBalanceSheetRepository.cs" />
     <Compile Include="Data\Lookups\IBalanceSheetLookupItem.cs" />

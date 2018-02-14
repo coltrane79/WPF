@@ -46,6 +46,7 @@
     <Compile Include="Model\CashTotal.cs" />
     <Compile Include="Model\PaymentCard.cs" />
     <Compile Include="Model\SalesPerson.cs" />
+    <Compile Include="Model\SalesPersonLookupItem.cs" />
     <Compile Include="Model\ZRead.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
