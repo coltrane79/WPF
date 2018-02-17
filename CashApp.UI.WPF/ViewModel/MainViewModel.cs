@@ -34,10 +34,7 @@ namespace CashApp.UI.WPF.ViewModel
                 .Subscribe(OnBalanceSheetDeleted);
 
             OnCreateNewBalanceSheet = new DelegateCommand(CreateNewBalanceSheet);
-        }
-
-        
-
+        }        
         public BalanceSheetNavidationViewModel BalanceSheetNavigationViewModel
         {
             get { return _balanceSheetNavigationViewModel; }

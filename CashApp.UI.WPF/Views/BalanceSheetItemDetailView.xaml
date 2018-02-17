@@ -156,10 +156,10 @@
             <TextBox Width="50" Margin="0,7,0,0" HorizontalAlignment="Left"  Text="{Binding CashBalanceSheetProperty.Variance, Mode=TwoWay, Converter={StaticResource StringConversion }}"/>
         </StackPanel>
         <DockPanel Grid.Row="5" Grid.ColumnSpan="6" Margin="10">
-            <!--StackPanel DockPanel.Dock="Right">
-                <Button Content="Add" Margin="10" Command="{Binding AddZread}"/>
+            <StackPanel DockPanel.Dock="Right">
+                <Button Content="Add" Margin="10" Width="85" Command="{Binding AddZread}"/>
                 <Button Content="Remove" Margin="10" Command="{Binding DeleteZread}"/>
-            </StackPanel>-->
+            </StackPanel>
             <DataGrid ItemsSource="{Binding ZReads}" Width="500" AutoGenerateColumns="True">
             </DataGrid>
         </DockPanel>

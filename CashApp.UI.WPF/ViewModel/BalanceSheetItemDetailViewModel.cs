@@ -43,7 +43,6 @@ namespace CashApp.UI.WPF.ViewModel
         {
             return CashBalanceSheetProperty != null && !CashBalanceSheetProperty.HasErrors && HasChanges;
         }
-
         private async void OnSaveExecute()
         {
             await _balanceSheetRepository.SaveAsync();
@@ -65,12 +64,10 @@ namespace CashApp.UI.WPF.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public ICommand SaveCommand { get; }
         public ICommand DeleteCommand { get; }
         public ObservableCollection<SalesPersonLookupItem> SalesPeople { get; }
         public ObservableCollection<ZRead> ZReads { get; private set; }
-
         public bool HasChanges
         {
             get { return _hasChanges; }
