@@ -160,7 +160,8 @@
                 <Button Content="Add" Margin="10" Width="85" Command="{Binding AddZread}"/>
                 <Button Content="Remove" Margin="10" Command="{Binding DeleteZread}"/>
             </StackPanel>
-            <DataGrid ItemsSource="{Binding ZReads}" Width="500" AutoGenerateColumns="True">
+            <DataGrid ItemsSource="{Binding ZReads}" Width="500" AutoGenerateColumns="True"
+                      SelectedItem="{Binding SelectedZRead}">
             </DataGrid>
         </DockPanel>
 

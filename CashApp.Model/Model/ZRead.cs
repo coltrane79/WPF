@@ -23,5 +23,10 @@ namespace CashApp.Model.Model
             ZReadDate = DateTime.Today;
         }
 
+        public ZRead(DateTime date)
+        {
+            ZReadDate = date;
+        }
+
     }
 }
