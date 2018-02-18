@@ -19,33 +19,49 @@ namespace CashApp.UI.WPF.ViewModel
             _bsLookupItem = bsLookupItem;
             _eventAggregtor = eventAggregator;
             BalanceSheets = new ObservableCollection<BalanceSheetNavigationItemViewModel>();
-            _eventAggregtor.GetEvent<AfterBalanceSheetSavedEvent>()
-                .Subscribe(AfterFriendSaveEvent);
-            _eventAggregtor.GetEvent<AfterBalanceSheetDeletedEvent>()
-                .Subscribe(AfterBalanceSheetDeleted);
+            _eventAggregtor.GetEvent<AfterSavedEvent>()
+                .Subscribe(AfterSaveEvent);
+            _eventAggregtor.GetEvent<AfterDeletedEvent>()
+                .Subscribe(AfterDeleted);
 
         }
-        private void AfterBalanceSheetDeleted(BalanceSheetSavedEventArgs balanceSheet)
+        private void AfterDeleted(AfterDeletedEventArgs args)
         {
-            var balSheet = BalanceSheets.Where(item => item.Id == balanceSheet.Id);
-            if (balSheet != null)
-                BalanceSheets.Remove(balSheet.SingleOrDefault());
+            switch (args.ViewModelName)
+            {
+                case nameof(BalanceSheetItemDetailViewModel):
+                    var balSheet = BalanceSheets.Where(item => item.Id == args.Id);
+                    if (balSheet != null)
+                        BalanceSheets.Remove(balSheet.SingleOrDefault());
+                    break;
+            }
         }
-        private void AfterFriendSaveEvent(BalanceSheetSavedEventArgs updatedBalanceSheet)
+        private void AfterSaveEvent(AfterSavedEventArgs args)
         {
-            var SelectedItem = BalanceSheets.SingleOrDefault(bs => bs.Id == updatedBalanceSheet.Id);
+            switch (args.ViewModelName)
+            {
+                case nameof(BalanceSheetItemDetailViewModel):
+                    NewNavigationItemModel(args);
+                    break;
+            }
+        }
+
+        private void NewNavigationItemModel(AfterSavedEventArgs args)
+        {
+            var SelectedItem = BalanceSheets.SingleOrDefault(bs => bs.Id == args.Id);
             if (SelectedItem == null)
             {
-                BalanceSheets.Add(new BalanceSheetNavigationItemViewModel(updatedBalanceSheet.Id,
-                    updatedBalanceSheet.Date.ToString(),
+                BalanceSheets.Add(new BalanceSheetNavigationItemViewModel(args.Id,
+                    args.Date.ToString(),
                     _eventAggregtor,
                     nameof(BalanceSheetItemDetailViewModel)));
             }
             else
             {
-                SelectedItem.DisplayMember = updatedBalanceSheet.Date;
+                SelectedItem.DisplayMember = args.Date;
             }
         }
+
         public async Task LoadAsync()
         {
             var lookup = await _bsLookupItem.GetBalanceSheetsAsync();

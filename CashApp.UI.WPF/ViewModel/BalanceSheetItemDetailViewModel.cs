@@ -71,11 +71,12 @@ namespace CashApp.UI.WPF.ViewModel
         {
             await _balanceSheetRepository.SaveAsync();
             HasChanges = _balanceSheetRepository.HasChanges();
-            _eventAggregator.GetEvent<AfterBalanceSheetSavedEvent>()
-                .Publish(new BalanceSheetSavedEventArgs
+            _eventAggregator.GetEvent<AfterSavedEvent>()
+                .Publish(new AfterSavedEventArgs
                 {
                     Id = CashBalanceSheetProperty.Id,
-                    Date = CashBalanceSheetProperty.Date.ToShortDateString()
+                    Date = CashBalanceSheetProperty.Date.ToShortDateString(),
+                    ViewModelName = nameof(BalanceSheetItemDetailViewModel)
                 }
                 );
         }
@@ -180,10 +181,11 @@ namespace CashApp.UI.WPF.ViewModel
             {
                 _balanceSheetRepository.DeletebyIdAsync(CashBalanceSheetProperty.Model);
                 await _balanceSheetRepository.SaveAsync();
-                _eventAggregator.GetEvent<AfterBalanceSheetDeletedEvent>()
-                    .Publish(new BalanceSheetSavedEventArgs()
+                _eventAggregator.GetEvent<AfterDeletedEvent>()
+                    .Publish(new AfterDeletedEventArgs()
                     {
-                        Id = CashBalanceSheetProperty.Id
+                        Id = CashBalanceSheetProperty.Id,
+                        ViewModelName = nameof(BalanceSheetItemDetailViewModel)
                     });
             }
         }

@@ -2,13 +2,14 @@
 
 namespace CashApp.UI.WPF.Event
 {
-    public class AfterBalanceSheetSavedEvent: PubSubEvent<BalanceSheetSavedEventArgs>
+    public class AfterSavedEvent: PubSubEvent<AfterSavedEventArgs>
     {
     }
 
-    public class BalanceSheetSavedEventArgs
+    public class AfterSavedEventArgs
     {
         public int Id { get; set; }
         public string Date { get; set; }
+        public string ViewModelName { get; set; }
     }
 }

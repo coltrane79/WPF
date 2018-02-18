@@ -115,9 +115,9 @@
     <Compile Include="Data\Lookups\LookupItem.cs" />
     <Compile Include="Data\Repositories\IZReadRepository.cs" />
     <Compile Include="Data\Repositories\ZReadRespository.cs" />
-    <Compile Include="Event\AfterBalanceSheetDeletedEvent.cs" />
-    <Compile Include="Event\AfterBalanceSheetSavedEvent.cs" />
-    <Compile Include="Event\OpenBalanceSheetDetailEvent.cs" />
+    <Compile Include="Event\AfterDeletedEvent.cs" />
+    <Compile Include="Event\AfterSavedEvent.cs" />
+    <Compile Include="Event\OpenDetailEvent.cs" />
     <Compile Include="ModelWrapper\BalanceSheetModelWrapper.cs" />
     <Compile Include="ModelWrapper\ModelWrapper.cs" />
     <Compile Include="ModelWrapper\NotifyDataErrorBase.cs" />
