@@ -1,10 +1,6 @@
-﻿using System.Threading.Tasks;
-
-namespace CashApp.UI.WPF.ViewModel
+﻿namespace CashApp.UI.WPF.ViewModel
 {
-    public interface IBalanceSheetItemDetailViewModel
+    public interface IBalanceSheetItemDetailViewModel: IItemDetailViewModel
     {
-        Task LoadAsync(int? Id);
-        bool HasChanges { get; }
     }
 }

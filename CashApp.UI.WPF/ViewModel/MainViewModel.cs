@@ -18,6 +18,7 @@ namespace CashApp.UI.WPF.ViewModel
         private Func<BalanceSheetItemDetailViewModel> _balanceSheetItemDetailViewModelCreator;
         private IEventAggregator _eventAggregator { get; }
         private IMessageDialogService _messageDialogService;
+        private IItemDetailViewModel _itemDetailViewModel;
         public MainViewModel(BalanceSheetNavidationViewModel BSNavigationViewModel, 
             Func<BalanceSheetItemDetailViewModel> BSItemDetailViewCreator, 
             IEventAggregator EventAggregator,
@@ -28,8 +29,8 @@ namespace CashApp.UI.WPF.ViewModel
             _eventAggregator = EventAggregator;
             _messageDialogService = messageDialogService;
 
-            _eventAggregator.GetEvent<OpenBalanceSheetDetailEvent>()
-                .Subscribe(OnOpenBalanceSheetDetail);
+            _eventAggregator.GetEvent<OpenDetailEvent>()
+                .Subscribe(OnOpenDetail);
             _eventAggregator.GetEvent<AfterBalanceSheetDeletedEvent>()
                 .Subscribe(OnBalanceSheetDeleted);
 
@@ -43,16 +44,14 @@ namespace CashApp.UI.WPF.ViewModel
                 _balanceSheetNavigationViewModel = value;
                 OnPropertyChanged(nameof(value));
             }
-        }
+        }        
 
-        private IBalanceSheetItemDetailViewModel balanceSheetItemDetailViewModel;
-
-        public IBalanceSheetItemDetailViewModel BalanceSheetItemDetailViewModel
+        public IItemDetailViewModel ItemDetailViewModel
         {
-            get { return balanceSheetItemDetailViewModel; }
+            get { return _itemDetailViewModel; }
             private set
             {
-                balanceSheetItemDetailViewModel = value;
+                _itemDetailViewModel = value;
                 OnPropertyChanged();
             }
         }
@@ -65,11 +64,11 @@ namespace CashApp.UI.WPF.ViewModel
 
         private void CreateNewBalanceSheet()
         {
-            OnOpenBalanceSheetDetail(null);
+            OnOpenDetail(null);
         }
-        private async void OnOpenBalanceSheetDetail(int? balanceSheetId)
+        private async void OnOpenDetail(OpenDetailEventEventArgs args)
         {
-            if(BalanceSheetItemDetailViewModel != null && BalanceSheetItemDetailViewModel.HasChanges)
+            if(ItemDetailViewModel != null && ItemDetailViewModel.HasChanges)
             {
                 var result = _messageDialogService.ShowOkCancelDialog("Leave Un-saved Data?", "Question");
                 if (result == MessageDialogResult.Cancel)
@@ -77,13 +76,19 @@ namespace CashApp.UI.WPF.ViewModel
                     return;
                 }
             }
-            BalanceSheetItemDetailViewModel = _balanceSheetItemDetailViewModelCreator();
-            await BalanceSheetItemDetailViewModel.LoadAsync(balanceSheetId);
+            switch (args.ViewModelName)
+            {
+                case nameof(BalanceSheetItemDetailViewModel):
+                    ItemDetailViewModel = _balanceSheetItemDetailViewModelCreator();
+                    break;
+            }
+            
+            await ItemDetailViewModel.LoadAsync(args.id);
         }
 
         private void OnBalanceSheetDeleted(BalanceSheetSavedEventArgs obj)
         {
-            BalanceSheetItemDetailViewModel = null;
+            ItemDetailViewModel = null;
         }
 
     }

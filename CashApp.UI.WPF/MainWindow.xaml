@@ -36,6 +36,6 @@
                                      DataContext="{Binding BalanceSheetNavigationViewModel}"/>
         <ContentControl Grid.Row="1"
                         Grid.Column="1"
-                        Content="{Binding BalanceSheetItemDetailViewModel}"/>
+                        Content="{Binding ItemDetailViewModel}"/>
     </Grid>
 </Window>

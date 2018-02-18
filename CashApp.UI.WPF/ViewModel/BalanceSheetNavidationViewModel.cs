@@ -25,39 +25,39 @@ namespace CashApp.UI.WPF.ViewModel
                 .Subscribe(AfterBalanceSheetDeleted);
 
         }
-
         private void AfterBalanceSheetDeleted(BalanceSheetSavedEventArgs balanceSheet)
         {
             var balSheet = BalanceSheets.Where(item => item.Id == balanceSheet.Id);
-            if(balSheet != null)
+            if (balSheet != null)
                 BalanceSheets.Remove(balSheet.SingleOrDefault());
         }
-
         private void AfterFriendSaveEvent(BalanceSheetSavedEventArgs updatedBalanceSheet)
         {
             var SelectedItem = BalanceSheets.SingleOrDefault(bs => bs.Id == updatedBalanceSheet.Id);
             if (SelectedItem == null)
             {
                 BalanceSheets.Add(new BalanceSheetNavigationItemViewModel(updatedBalanceSheet.Id,
-                    updatedBalanceSheet.Date.ToString(), _eventAggregtor));
+                    updatedBalanceSheet.Date.ToString(),
+                    _eventAggregtor,
+                    nameof(BalanceSheetItemDetailViewModel)));
             }
             else
             {
                 SelectedItem.DisplayMember = updatedBalanceSheet.Date;
             }
         }
-
         public async Task LoadAsync()
         {
             var lookup = await _bsLookupItem.GetBalanceSheetsAsync();
             BalanceSheets.Clear();
             foreach (var bs in lookup)
             {
-                BalanceSheets.Add(new BalanceSheetNavigationItemViewModel(bs.Id, bs.DisplayMember.ToShortDateString(),
-                    _eventAggregtor));
+                BalanceSheets.Add(new BalanceSheetNavigationItemViewModel(bs.Id,
+                    bs.DisplayMember.ToShortDateString(),
+                    _eventAggregtor,
+                    nameof(BalanceSheetItemDetailViewModel)));
             }
         }
         public ObservableCollection<BalanceSheetNavigationItemViewModel> BalanceSheets { get; }
-
     }
 }
