@@ -1,30 +1,28 @@
 ﻿using CashApp.Model.Model;
+using CashApp.UI.WPF.Data.Lookups;
 using CashApp.UI.WPF.Data.Repositories;
 using CashApp.UI.WPF.Event;
 using CashApp.UI.WPF.ModelWrapper;
+using CashApp.UI.WPF.Views.Services;
 using Prism.Commands;
 using Prism.Events;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System;
-using CashApp.UI.WPF.Views.Services;
-using CashApp.UI.WPF.Data.Lookups;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
 
 namespace CashApp.UI.WPF.ViewModel
 {
     public class BalanceSheetItemDetailViewModel : ViewModelBase, IBalanceSheetItemDetailViewModel
     {
+       
         private BalanceSheetModelWrapper _cashBalanceSheet;
-        private IBalanceSheetRespository _balanceSheetRepository;        
+        private IBalanceSheetRespository _balanceSheetRepository;
         private IEventAggregator _eventAggregator;
         private ISalesPersonLookupItem _salesPersonLookupItem;
         private IZReadsLookup _zReadsLookup;
         private IZReadRepository _zReadRepository;
         private bool _hasChanges;
         private ZReadModelWrapper _selectedZRead;
-
         public BalanceSheetItemDetailViewModel(IBalanceSheetRespository BalanceSheetRepository,
             IEventAggregator eventAggregator,
             ISalesPersonLookupItem salesPersonLookupItem,
@@ -45,21 +43,18 @@ namespace CashApp.UI.WPF.ViewModel
             SalesPeople = new ObservableCollection<SalesPersonLookupItem>();
             ZReads = new ObservableCollection<ZReadModelWrapper>();
         }
-
         private bool OnDeleteZReadCanExecute()
         {
             return SelectedZRead != null;
         }
-
         private async void OnDeleteZRead()
         {
-           if(_selectedZRead != null)
-           {
+            if (_selectedZRead != null)
+            {
                 _zReadRepository.Remove(_selectedZRead.Model);
                 await LoadZReads();
-           }
+            }
         }
-
         private async void OnAddZRead()
         {
             ZRead zread = new ZRead(CashBalanceSheetProperty.Date);
@@ -68,7 +63,6 @@ namespace CashApp.UI.WPF.ViewModel
             ZReads.Add(new ZReadModelWrapper(zread));
             //ZReadModelWrapper zreadmodelwrapper = new ZReadModelWrapper()
         }
-
         private bool OnSaveCanExecute()
         {
             return CashBalanceSheetProperty != null && !CashBalanceSheetProperty.HasErrors && HasChanges;
@@ -139,7 +133,6 @@ namespace CashApp.UI.WPF.ViewModel
 
             await LoadZReads();
         }
-
         private async Task LoadSalesPeople()
         {
             SalesPeople.Clear();
@@ -149,7 +142,6 @@ namespace CashApp.UI.WPF.ViewModel
                 SalesPeople.Add(item);
             }
         }
-
         private async Task LoadZReads()
         {
             ZReads.Clear();
@@ -160,7 +152,6 @@ namespace CashApp.UI.WPF.ViewModel
                 ZReads.Add(zReadModelWrapper);
             }
         }
-
         public ZReadModelWrapper SelectedZRead
         {
             get { return _selectedZRead; }
@@ -179,7 +170,7 @@ namespace CashApp.UI.WPF.ViewModel
         }
         private bool OnDeleteCanExecute()
         {
-            return true;    
+            return true;
         }
         private async void OnDeleteExecute()
         {
@@ -196,6 +187,5 @@ namespace CashApp.UI.WPF.ViewModel
                     });
             }
         }
-
     }
 }
