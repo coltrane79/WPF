@@ -10,41 +10,20 @@ using CashApp.UI.WPF.ModelWrapper;
 
 namespace CashApp.UI.WPF.Data.Repositories
 {
-    public class BalanceSheetRepository : IBalanceSheetRespository
+    public class BalanceSheetRepository : GenericRepository<CashBalanceSheet, CashAppDbContext>, IBalanceSheetRespository
     {
-        private CashAppDbContext _context;
-
-        public BalanceSheetRepository(CashAppDbContext Context)
+        public BalanceSheetRepository(CashAppDbContext context)
+            : base(context)
         {
-            _context = Context;
+
         }
-
-        public void Add(CashBalanceSheet balanceSheet)
+        public override async Task<CashBalanceSheet> GetByIdAsync(int id)
         {
-            _context.CashBalanceSheets.Add(balanceSheet);
-        }
-       
-
-        public void DeletebyIdAsync(CashBalanceSheet balanceSheet)
-        {
-            _context.CashBalanceSheets.Remove(balanceSheet);            
-        }
-
-        public async Task<CashBalanceSheet> GetByIdAsync(int id)
-        {
-            return await _context.CashBalanceSheets
+            return await Context.CashBalanceSheets
                 .Include("SalesPerson")
                 .SingleAsync<CashBalanceSheet>(c => c.Id == id);
 
         }
-        public bool HasChanges()
-        {
-            return _context.ChangeTracker.HasChanges();
-        }
-
-        public async Task SaveAsync()
-        {            
-            await _context.SaveChangesAsync();
-        }
+        
     }
 }

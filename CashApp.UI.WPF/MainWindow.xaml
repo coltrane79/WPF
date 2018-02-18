@@ -28,7 +28,8 @@
         </Grid.ColumnDefinitions>
         <Menu Grid.ColumnSpan="2">
             <MenuItem Header="Create">
-                <MenuItem Header="New Balance Sheet" Command="{Binding OnCreateNewBalanceSheet}"/>
+                <MenuItem Header="New Balance Sheet" Command="{Binding OnCreateNewBalanceSheet}"
+                          CommandParameter="{x:Type viewModel:BalanceSheetItemDetailViewModel}"/>
             </MenuItem>
         </Menu>
         <view:BalanceSheetNavigation Grid.Row="1"

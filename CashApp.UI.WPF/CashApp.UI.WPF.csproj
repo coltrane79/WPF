@@ -110,9 +110,11 @@
     <Compile Include="Data\Lookups\ISalesPersonLookupItem.cs" />
     <Compile Include="Data\Lookups\IZReadsLookup.cs" />
     <Compile Include="Data\Repositories\BalanceSheetRepository.cs" />
+    <Compile Include="Data\Repositories\GenericRepository.cs" />
     <Compile Include="Data\Repositories\IBalanceSheetRepository.cs" />
     <Compile Include="Data\Lookups\IBalanceSheetLookupItem.cs" />
     <Compile Include="Data\Lookups\LookupItem.cs" />
+    <Compile Include="Data\Repositories\IGenericRepository.cs" />
     <Compile Include="Data\Repositories\IZReadRepository.cs" />
     <Compile Include="Data\Repositories\ZReadRespository.cs" />
     <Compile Include="Event\AfterDeletedEvent.cs" />
