@@ -127,6 +127,7 @@
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="ViewModel\BalanceSheetItemDetailViewModel.cs" />
     <Compile Include="ViewModel\BalanceSheetNavidationViewModel.cs" />
+    <Compile Include="ViewModel\DetailViewModelBase.cs" />
     <Compile Include="ViewModel\IBalanceSheetItemDetailViewModel.cs" />
     <Compile Include="ViewModel\IItemDetailViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

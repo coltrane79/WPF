@@ -12,31 +12,26 @@ using System.Windows.Input;
 
 namespace CashApp.UI.WPF.ViewModel
 {
-    public class BalanceSheetItemDetailViewModel : ViewModelBase, IBalanceSheetItemDetailViewModel
+    public class BalanceSheetItemDetailViewModel : DetailViewModelBase, IBalanceSheetItemDetailViewModel
     {
        
         private BalanceSheetModelWrapper _cashBalanceSheet;
-        private IBalanceSheetRespository _balanceSheetRepository;
-        private IEventAggregator _eventAggregator;
+        private IBalanceSheetRespository _balanceSheetRepository;       
         private ISalesPersonLookupItem _salesPersonLookupItem;
         private IZReadsLookup _zReadsLookup;
-        private IZReadRepository _zReadRepository;
-        private bool _hasChanges;
+        private IZReadRepository _zReadRepository;        
         private ZReadModelWrapper _selectedZRead;
         public BalanceSheetItemDetailViewModel(IBalanceSheetRespository BalanceSheetRepository,
             IEventAggregator eventAggregator,
             ISalesPersonLookupItem salesPersonLookupItem,
             IZReadsLookup zReadsLookup,
-            IZReadRepository ZReadRepository)
+            IZReadRepository ZReadRepository) : base(eventAggregator)
         {
-            _balanceSheetRepository = BalanceSheetRepository;
-            _eventAggregator = eventAggregator;
+            _balanceSheetRepository = BalanceSheetRepository;            
             _salesPersonLookupItem = salesPersonLookupItem;
             _zReadsLookup = zReadsLookup;
             _zReadRepository = ZReadRepository;
-
-            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
-            DeleteCommand = new DelegateCommand(OnDeleteExecute, OnDeleteCanExecute);
+           
             AddZread = new DelegateCommand(OnAddZRead);
             DeleteZread = new DelegateCommand(OnDeleteZRead, OnDeleteZReadCanExecute);
 
@@ -63,22 +58,17 @@ namespace CashApp.UI.WPF.ViewModel
             ZReads.Add(new ZReadModelWrapper(zread));
             //ZReadModelWrapper zreadmodelwrapper = new ZReadModelWrapper()
         }
-        private bool OnSaveCanExecute()
+        protected override bool OnSaveCanExecute()
         {
-            return CashBalanceSheetProperty != null && !CashBalanceSheetProperty.HasErrors && HasChanges;
+            return CashBalanceSheetProperty != null 
+                && !CashBalanceSheetProperty.HasErrors 
+                && HasChanges;
         }
-        private async void OnSaveExecute()
+        protected override async void OnSaveExecute()
         {
             await _balanceSheetRepository.SaveAsync();
             HasChanges = _balanceSheetRepository.HasChanges();
-            _eventAggregator.GetEvent<AfterSavedEvent>()
-                .Publish(new AfterSavedEventArgs
-                {
-                    Id = CashBalanceSheetProperty.Id,
-                    Date = CashBalanceSheetProperty.Date.ToShortDateString(),
-                    ViewModelName = nameof(BalanceSheetItemDetailViewModel)
-                }
-                );
+            RaiseDetailSavedEvent(CashBalanceSheetProperty.Id, CashBalanceSheetProperty.Date.ToShortDateString());            
         }
         public BalanceSheetModelWrapper CashBalanceSheetProperty
         {
@@ -89,26 +79,11 @@ namespace CashApp.UI.WPF.ViewModel
                 OnPropertyChanged();
             }
         }
-        public ICommand SaveCommand { get; }
-        public ICommand DeleteCommand { get; }
         public ICommand AddZread { get; set; }
         public ICommand DeleteZread { get; set; }
         public ObservableCollection<SalesPersonLookupItem> SalesPeople { get; }
-        public ObservableCollection<ZReadModelWrapper> ZReads { get; private set; }
-        public bool HasChanges
-        {
-            get { return _hasChanges; }
-            set
-            {
-                if (_hasChanges != value)
-                {
-                    _hasChanges = value;
-                    OnPropertyChanged();
-                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-        public async Task LoadAsync(int? Id)
+        public ObservableCollection<ZReadModelWrapper> ZReads { get; private set; }        
+        public override async Task LoadAsync(int? Id)
         {
             var newBalanceSheet = Id.HasValue
                 ? await _balanceSheetRepository.GetByIdAsync(Id.Value)
@@ -173,7 +148,7 @@ namespace CashApp.UI.WPF.ViewModel
         {
             return true;
         }
-        private async void OnDeleteExecute()
+        protected override async void OnDeleteExecute()
         {
             var result = new MessageDialogService().
                 ShowOkCancelDialog("Do you really want to Delete?", "Delete Balance Sheet");
@@ -181,12 +156,7 @@ namespace CashApp.UI.WPF.ViewModel
             {
                 _balanceSheetRepository.DeletebyIdAsync(CashBalanceSheetProperty.Model);
                 await _balanceSheetRepository.SaveAsync();
-                _eventAggregator.GetEvent<AfterDeletedEvent>()
-                    .Publish(new AfterDeletedEventArgs()
-                    {
-                        Id = CashBalanceSheetProperty.Id,
-                        ViewModelName = nameof(BalanceSheetItemDetailViewModel)
-                    });
+                RaiseDetailDeletedEvent(CashBalanceSheetProperty.Id);                
             }
         }
     }
