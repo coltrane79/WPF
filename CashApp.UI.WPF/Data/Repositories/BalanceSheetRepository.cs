@@ -17,7 +17,7 @@ namespace CashApp.UI.WPF.Data.Repositories
         {
 
         }
-        public override async Task<CashBalanceSheet> GetByIdAsync(int id)
+        public override async Task<CashBalanceSheet> GetByIdAsync(int? id)
         {
             return await Context.CashBalanceSheets
                 .Include("SalesPerson")

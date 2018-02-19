@@ -8,29 +8,11 @@ using CashApp.Data;
 
 namespace CashApp.UI.WPF.Data.Repositories
 {
-    public class ZReadRespository : IZReadRepository
+    public class ZReadRespository : GenericRepository<ZRead,CashAppDbContext>, IZReadRepository
     {
-        private CashAppDbContext _context;
-        public ZReadRespository(CashAppDbContext Context)
+        public ZReadRespository(CashAppDbContext Context) : base(Context)
         {
-            _context = Context;
-        }
-
-        public void Add(ZRead zread)
-        {
-            _context.ZReads.Add(zread);
-        }
-
-        public async void Remove(ZRead zread)
-        {
-            _context.ZReads.Attach(zread);
-            _context.ZReads.Remove(zread);
-            await SaveChanges();
-        }
-
-        public async Task SaveChanges()
-        {
-            await _context.SaveChangesAsync();
+           
         }
     }
 }

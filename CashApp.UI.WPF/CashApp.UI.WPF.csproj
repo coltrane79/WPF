@@ -130,9 +130,11 @@
     <Compile Include="ViewModel\DetailViewModelBase.cs" />
     <Compile Include="ViewModel\IBalanceSheetItemDetailViewModel.cs" />
     <Compile Include="ViewModel\IItemDetailViewModel.cs" />
+    <Compile Include="ViewModel\IZReadViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\BalanceSheetNavigationItemViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="ViewModel\ZReadDetailViewModel.cs" />
     <Compile Include="Views\BalanceSheetItemDetailView.xaml.cs">
       <DependentUpon>BalanceSheetItemDetailView.xaml</DependentUpon>
     </Compile>

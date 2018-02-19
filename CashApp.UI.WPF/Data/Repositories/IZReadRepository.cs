@@ -7,10 +7,7 @@ using System.Threading.Tasks;
 
 namespace CashApp.UI.WPF.Data.Repositories
 {
-    public interface IZReadRepository
+    public interface IZReadRepository: IGenericRepository<ZRead>
     {
-        void Remove(ZRead zread);
-        void Add(ZRead zread);
-        Task SaveChanges();
     }
 }

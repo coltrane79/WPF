@@ -1,7 +1,6 @@
 ﻿using CashApp.Model.Model;
 using CashApp.UI.WPF.Data.Lookups;
 using CashApp.UI.WPF.Data.Repositories;
-using CashApp.UI.WPF.Event;
 using CashApp.UI.WPF.ModelWrapper;
 using CashApp.UI.WPF.Views.Services;
 using Prism.Commands;
@@ -46,7 +45,8 @@ namespace CashApp.UI.WPF.ViewModel
         {
             if (_selectedZRead != null)
             {
-                _zReadRepository.Remove(_selectedZRead.Model);
+                _zReadRepository.DeletebyIdAsync(_selectedZRead.Model);
+                await _zReadRepository.SaveAsync();
                 await LoadZReads();
             }
         }
@@ -54,7 +54,7 @@ namespace CashApp.UI.WPF.ViewModel
         {
             ZRead zread = new ZRead(CashBalanceSheetProperty.Date);
             _zReadRepository.Add(zread);
-            await _zReadRepository.SaveChanges();
+            await _zReadRepository.SaveAsync();
             ZReads.Add(new ZReadModelWrapper(zread));
             //ZReadModelWrapper zreadmodelwrapper = new ZReadModelWrapper()
         }
