@@ -1,4 +1,5 @@
-﻿using CashApp.UI.WPF.Event;
+﻿using Autofac.Features.Indexed;
+using CashApp.UI.WPF.Event;
 using CashApp.UI.WPF.Views.Services;
 using Prism.Commands;
 using Prism.Events;
@@ -15,20 +16,17 @@ namespace CashApp.UI.WPF.ViewModel
     public class MainViewModel : ViewModelBase
     {        
         private BalanceSheetNavidationViewModel _balanceSheetNavigationViewModel;
-        private Func<BalanceSheetItemDetailViewModel> _balanceSheetItemDetailViewModelCreator;
-        private Func<ZReadDetailViewModel> _zReadItemDetailViewModerlCreator;
+        private IIndex<string, IItemDetailViewModel> _detailViewModelCreator;        
         private IEventAggregator _eventAggregator { get; }
         private IMessageDialogService _messageDialogService;
         private IItemDetailViewModel _itemDetailViewModel;
         public MainViewModel(BalanceSheetNavidationViewModel BSNavigationViewModel, 
-            Func<BalanceSheetItemDetailViewModel> BSItemDetailViewCreator, 
-            Func<ZReadDetailViewModel> ZReadItemDetailViewCreator,
+            IIndex<string, IItemDetailViewModel> DetailViewModelCreator,
             IEventAggregator EventAggregator,
             IMessageDialogService messageDialogService)
         {
             _balanceSheetNavigationViewModel = BSNavigationViewModel;
-            _balanceSheetItemDetailViewModelCreator = BSItemDetailViewCreator;
-            _zReadItemDetailViewModerlCreator = ZReadItemDetailViewCreator;
+            _detailViewModelCreator = DetailViewModelCreator;
             _eventAggregator = EventAggregator;
             _messageDialogService = messageDialogService;
 
@@ -79,18 +77,9 @@ namespace CashApp.UI.WPF.ViewModel
                     return;
                 }
             }
-            switch (args.ViewModelName)
-            {
-                case nameof(BalanceSheetItemDetailViewModel):
-                    ItemDetailViewModel = _balanceSheetItemDetailViewModelCreator();
-                    break;
-                case nameof(ZReadDetailViewModel):
-                    ItemDetailViewModel = _zReadItemDetailViewModerlCreator();
-                    break;
-                default:
-                    throw new Exception("Unable to determine View for Action");
-            }
-            
+
+            ItemDetailViewModel = _detailViewModelCreator[args.ViewModelName];
+
             await ItemDetailViewModel.LoadAsync(args.id);
         }
 

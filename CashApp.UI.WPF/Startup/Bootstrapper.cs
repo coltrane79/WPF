@@ -21,8 +21,10 @@ namespace CashApp.UI.WPF.Startup
             builder.RegisterType<MessageDialogService>().As<IMessageDialogService>();
 
             builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
-            builder.RegisterType<BalanceSheetItemDetailViewModel>().AsSelf();
-            builder.RegisterType<ZReadDetailViewModel>().AsSelf();
+            builder.RegisterType<BalanceSheetItemDetailViewModel>()
+                .Keyed<IItemDetailViewModel>(nameof(BalanceSheetItemDetailViewModel));
+            builder.RegisterType<ZReadDetailViewModel>()
+                .Keyed<IItemDetailViewModel>(nameof(ZReadDetailViewModel));
             builder.RegisterType<BalanceSheetNavidationViewModel>().AsSelf();
             builder.RegisterType<LookupItem>().AsImplementedInterfaces();
             builder.RegisterType<BalanceSheetRepository>().AsImplementedInterfaces();
