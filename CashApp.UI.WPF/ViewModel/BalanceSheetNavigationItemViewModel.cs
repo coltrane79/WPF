@@ -18,7 +18,7 @@ namespace CashApp.UI.WPF.ViewModel
             Id = id;
             _displayMember = DisplayMember;
             _viewModelName = viewModelName;
-            OnOpenBalanceSheetDetailCommand = new DelegateCommand(OnOpenBalanceSheetViewCommand);
+            OnOpenDetailCommand = new DelegateCommand(OnOpenBalanceSheetViewCommand);
             _eventAggregator = EventAggregator;
         }
         public string DisplayMember
@@ -30,7 +30,7 @@ namespace CashApp.UI.WPF.ViewModel
                 OnPropertyChanged(nameof(DisplayMember));
             }
         }
-        public ICommand OnOpenBalanceSheetDetailCommand { get; }
+        public ICommand OnOpenDetailCommand { get; }
         private void OnOpenBalanceSheetViewCommand()
         {
             _eventAggregator.GetEvent<OpenDetailEvent>()

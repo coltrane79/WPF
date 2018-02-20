@@ -16,16 +16,19 @@ namespace CashApp.UI.WPF.ViewModel
     {        
         private BalanceSheetNavidationViewModel _balanceSheetNavigationViewModel;
         private Func<BalanceSheetItemDetailViewModel> _balanceSheetItemDetailViewModelCreator;
+        private Func<ZReadDetailViewModel> _zReadItemDetailViewModerlCreator;
         private IEventAggregator _eventAggregator { get; }
         private IMessageDialogService _messageDialogService;
         private IItemDetailViewModel _itemDetailViewModel;
         public MainViewModel(BalanceSheetNavidationViewModel BSNavigationViewModel, 
             Func<BalanceSheetItemDetailViewModel> BSItemDetailViewCreator, 
+            Func<ZReadDetailViewModel> ZReadItemDetailViewCreator,
             IEventAggregator EventAggregator,
             IMessageDialogService messageDialogService)
         {
             _balanceSheetNavigationViewModel = BSNavigationViewModel;
             _balanceSheetItemDetailViewModelCreator = BSItemDetailViewCreator;
+            _zReadItemDetailViewModerlCreator = ZReadItemDetailViewCreator;
             _eventAggregator = EventAggregator;
             _messageDialogService = messageDialogService;
 
@@ -81,6 +84,11 @@ namespace CashApp.UI.WPF.ViewModel
                 case nameof(BalanceSheetItemDetailViewModel):
                     ItemDetailViewModel = _balanceSheetItemDetailViewModelCreator();
                     break;
+                case nameof(ZReadDetailViewModel):
+                    ItemDetailViewModel = _zReadItemDetailViewModerlCreator();
+                    break;
+                default:
+                    throw new Exception("Unable to determine View for Action");
             }
             
             await ItemDetailViewModel.LoadAsync(args.id);

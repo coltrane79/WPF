@@ -6,19 +6,32 @@
              xmlns:local="clr-namespace:CashApp.UI.WPF.Views"             
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <DataTemplate x:Key="NavItemTemplate">
+            <Button Content="{Binding DisplayMember}"
+                    Command="{Binding OnOpenDetailCommand}"/>
+        </DataTemplate>
+    </UserControl.Resources>
    
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="BalanceSheets" Grid.Row="0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto">
-        <ItemsControl ItemsSource="{Binding BalanceSheets}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-
-                    <Button Content="{Binding DisplayMember}"
-                            Command="{Binding OnOpenBalanceSheetDetailCommand}"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        </ScrollViewer>                                  
+                <ItemsControl ItemsSource="{Binding BalanceSheets}"
+                          ItemTemplate="{StaticResource NavItemTemplate}"/>
+            </ScrollViewer>
+        </GroupBox>
+        <GroupBox Header="ZRead List" Grid.Row="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding ZReads}"
+                          ItemTemplate="{StaticResource NavItemTemplate}"/>
+            </ScrollViewer>
+        </GroupBox>
+                                       
     </Grid>
 </UserControl>

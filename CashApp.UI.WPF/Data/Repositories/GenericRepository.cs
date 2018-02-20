@@ -20,7 +20,8 @@ namespace CashApp.UI.WPF.Data.Repositories
 
         public void DeletebyIdAsync(TEntity Model)
         {
-            Context.Set<TEntity>().Attach(Model);
+            //if(Context.Set<TEntity>().ContainsAsync(Model))
+            Context.Set<TEntity>().Attach(Model); ;
             Context.Set<TEntity>().Remove(Model);
             
         }

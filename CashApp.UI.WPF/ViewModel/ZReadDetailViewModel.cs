@@ -88,7 +88,7 @@ namespace CashApp.UI.WPF.ViewModel
         protected override bool OnSaveCanExecute()
         {
             return ZRead != null 
-                && ZRead.HasErrors 
+                && !ZRead.HasErrors 
                 && HasChanges;
         }
 

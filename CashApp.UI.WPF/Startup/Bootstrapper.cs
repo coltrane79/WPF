@@ -22,6 +22,7 @@ namespace CashApp.UI.WPF.Startup
 
             builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
             builder.RegisterType<BalanceSheetItemDetailViewModel>().AsSelf();
+            builder.RegisterType<ZReadDetailViewModel>().AsSelf();
             builder.RegisterType<BalanceSheetNavidationViewModel>().AsSelf();
             builder.RegisterType<LookupItem>().AsImplementedInterfaces();
             builder.RegisterType<BalanceSheetRepository>().AsImplementedInterfaces();

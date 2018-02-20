@@ -12,13 +12,17 @@ namespace CashApp.UI.WPF.ViewModel
     public class BalanceSheetNavidationViewModel : ViewModelBase
     {
         private IBalanceSheetLookupItem _bsLookupItem;
+        private IZReadsLookup _zReadsLookupItem;
         private IEventAggregator _eventAggregtor;
         public BalanceSheetNavidationViewModel(IBalanceSheetLookupItem bsLookupItem,
+            IZReadsLookup zReadsLookupItem,
             IEventAggregator eventAggregator)
         {
             _bsLookupItem = bsLookupItem;
+            _zReadsLookupItem = zReadsLookupItem;
             _eventAggregtor = eventAggregator;
             BalanceSheets = new ObservableCollection<BalanceSheetNavigationItemViewModel>();
+            ZReads = new ObservableCollection<BalanceSheetNavigationItemViewModel>();
             _eventAggregtor.GetEvent<AfterSavedEvent>()
                 .Subscribe(AfterSaveEvent);
             _eventAggregtor.GetEvent<AfterDeletedEvent>()
@@ -43,6 +47,11 @@ namespace CashApp.UI.WPF.ViewModel
                 case nameof(BalanceSheetItemDetailViewModel):
                     NewNavigationItemModel(args);
                     break;
+                case nameof(ZReadDetailViewModel):
+                    NewZReadNavigationItem(args);
+                    break;
+                default:
+                    throw new Exception("View Event not Registered");
             }
         }
 
@@ -62,6 +71,22 @@ namespace CashApp.UI.WPF.ViewModel
             }
         }
 
+        private void NewZReadNavigationItem(AfterSavedEventArgs args)
+        {
+            var SelectedItem = ZReads.SingleOrDefault(z => z.Id == args.Id);
+            if (SelectedItem == null)
+            {
+                ZReads.Add(new BalanceSheetNavigationItemViewModel(args.Id,
+                    args.Date.ToString(),
+                    _eventAggregtor,
+                    nameof(ZReadDetailViewModel)));
+            }
+            else
+            {
+                SelectedItem.DisplayMember = args.Date;
+            }
+        }
+
         public async Task LoadAsync()
         {
             var lookup = await _bsLookupItem.GetBalanceSheetsAsync();
@@ -73,7 +98,18 @@ namespace CashApp.UI.WPF.ViewModel
                     _eventAggregtor,
                     nameof(BalanceSheetItemDetailViewModel)));
             }
+
+            var items = await _zReadsLookupItem.GetZReadsAsyncLookup();
+            ZReads.Clear();
+            foreach (var item in items)
+            {
+                ZReads.Add(new BalanceSheetNavigationItemViewModel(item.Id,
+                    item.DisplayMember.ToShortDateString(),
+                    _eventAggregtor,
+                    nameof(ZReadDetailViewModel)));
+            }
         }
         public ObservableCollection<BalanceSheetNavigationItemViewModel> BalanceSheets { get; }
+        public ObservableCollection<BalanceSheetNavigationItemViewModel> ZReads { get; }
     }
 }

@@ -16,6 +16,9 @@
         <DataTemplate DataType="{x:Type viewModel:BalanceSheetItemDetailViewModel}">
             <view:BalanceSheetItemDetailView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ZReadDetailViewModel}">
+            <view:ZReadDetailView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>

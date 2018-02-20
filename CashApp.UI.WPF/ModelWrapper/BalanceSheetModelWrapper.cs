@@ -26,13 +26,7 @@ namespace CashApp.UI.WPF.ModelWrapper
                 SetValue(value);
                 //ValidateProperty(nameof(Date));
             }
-        }
-
-        //private void ValidateProperty(string propertyName)
-        //{
-        //    ClearErrors(propertyName);
-        //    
-        //}
+        }    
         public SalesPerson SalesPerson
         {
             get { return GetValue<SalesPerson>(); ; }

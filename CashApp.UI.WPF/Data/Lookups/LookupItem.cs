@@ -50,5 +50,21 @@ namespace CashApp.UI.WPF.Data.Lookups
                         
             }
         }
+
+        public async Task<IEnumerable<ZReadLookupItem>> GetZReadsAsyncLookup()
+        {
+            using (var ctx = new CashAppDbContext())
+            {
+                return await ctx.ZReads.AsNoTracking()
+                    .Select(z =>
+                        new ZReadLookupItem
+                        {
+                            Id = z.Id,
+                            DisplayMember = z.ZReadDate
+                        })
+                        .ToListAsync();
+            }
+        }
+       
     }
 }

@@ -8,5 +8,6 @@ namespace CashApp.UI.WPF.Data.Lookups
     public interface IZReadsLookup
     {
         Task<IEnumerable<ZRead>> GetZReadsAsync(DateTime Date);
+        Task<IEnumerable<ZReadLookupItem>> GetZReadsAsyncLookup();
     }
 }
