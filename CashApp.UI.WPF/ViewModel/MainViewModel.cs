@@ -5,6 +5,7 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace CashApp.UI.WPF.ViewModel
         private IIndex<string, IItemDetailViewModel> _detailViewModelCreator;        
         private IEventAggregator _eventAggregator { get; }
         private IMessageDialogService _messageDialogService;
-        private IItemDetailViewModel _itemDetailViewModel;
+        private IItemDetailViewModel _selectedItemDetailViewModel;
         public MainViewModel(BalanceSheetNavidationViewModel BSNavigationViewModel, 
             IIndex<string, IItemDetailViewModel> DetailViewModelCreator,
             IEventAggregator EventAggregator,
@@ -29,14 +30,21 @@ namespace CashApp.UI.WPF.ViewModel
             _detailViewModelCreator = DetailViewModelCreator;
             _eventAggregator = EventAggregator;
             _messageDialogService = messageDialogService;
+            DetailViewModels = new ObservableCollection<IItemDetailViewModel>();
 
             _eventAggregator.GetEvent<OpenDetailEvent>()
                 .Subscribe(OnOpenDetail);
             _eventAggregator.GetEvent<AfterDeletedEvent>()
                 .Subscribe(OnDeleted);
+            _eventAggregator.GetEvent<AfterDetailClosedEvent>()
+                .Subscribe(OnDeleteViewClose);
+
 
             OnCreateNewBalanceSheet = new DelegateCommand<Type>(CreateNewBalanceSheet);
-        }        
+        }
+
+        
+
         public BalanceSheetNavidationViewModel BalanceSheetNavigationViewModel
         {
             get { return _balanceSheetNavigationViewModel; }
@@ -45,14 +53,15 @@ namespace CashApp.UI.WPF.ViewModel
                 _balanceSheetNavigationViewModel = value;
                 OnPropertyChanged(nameof(value));
             }
-        }        
+        }
 
-        public IItemDetailViewModel ItemDetailViewModel
+        public ObservableCollection<IItemDetailViewModel> DetailViewModels { get; }
+        public IItemDetailViewModel SelectedDetailViewModel
         {
-            get { return _itemDetailViewModel; }
-            private set
+            get { return _selectedItemDetailViewModel; }
+            set
             {
-                _itemDetailViewModel = value;
+                _selectedItemDetailViewModel = value;
                 OnPropertyChanged();
             }
         }
@@ -69,23 +78,41 @@ namespace CashApp.UI.WPF.ViewModel
         }
         private async void OnOpenDetail(OpenDetailEventEventArgs args)
         {
-            if(ItemDetailViewModel != null && ItemDetailViewModel.HasChanges)
+            var detailViewModel = DetailViewModels.
+                SingleOrDefault(vm => vm.Id == args.id
+                && vm.GetType().Name == args.ViewModelName);
+            if(detailViewModel == null  && !DetailViewModels.Contains(detailViewModel))
             {
-                var result = _messageDialogService.ShowOkCancelDialog("Leave Un-saved Data?", "Question");
-                if (result == MessageDialogResult.Cancel)
-                {
-                    return;
-                }
+                detailViewModel = _detailViewModelCreator[args.ViewModelName];
+                await detailViewModel.LoadAsync(args.id);
+                DetailViewModels.Add(detailViewModel);
             }
 
-            ItemDetailViewModel = _detailViewModelCreator[args.ViewModelName];
+            SelectedDetailViewModel = detailViewModel;
 
-            await ItemDetailViewModel.LoadAsync(args.id);
+            await SelectedDetailViewModel.LoadAsync(args.id);
         }
 
         private void OnDeleted(AfterDeletedEventArgs args)
         {
-            ItemDetailViewModel = null;
+            DeleteDetailView(args.Id, args.ViewModelName);
+        }
+
+        private void DeleteDetailView(int Id, string ViewModelName)
+        {
+            var detailViewModel = DetailViewModels.
+                             SingleOrDefault(vm => vm.Id == Id
+                             && vm.GetType().Name == ViewModelName);
+
+            if (detailViewModel != null)
+            {
+                DetailViewModels.Remove(detailViewModel);
+            }
+        }
+
+        private void OnDeleteViewClose(AfterDetailCloseEventArgs args)
+        {
+            DeleteDetailView(args.Id, args.ViewModelName);
         }
 
     }

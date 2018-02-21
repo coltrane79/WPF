@@ -38,8 +38,24 @@
         <view:BalanceSheetNavigation Grid.Row="1"
                                      Grid.Column="0"
                                      DataContext="{Binding BalanceSheetNavigationViewModel}"/>
-        <ContentControl Grid.Row="1"
+        <TabControl Grid.Row="1"
                         Grid.Column="1"
-                        Content="{Binding ItemDetailViewModel}"/>
+                        ItemsSource="{Binding DetailViewModels}"
+                        SelectedItem="{Binding SelectedDetailViewModel}">
+
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}"/>
+                        <TextBlock Text="*" Visibility="{Binding HasChanges, 
+                            Converter={StaticResource BooleantoVisibilityConverter}}"/>
+                        <Button Content="X" Command="{Binding DetailClose}"
+                                VerticalAlignment="Top"
+                                Margin="2"/>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </TabControl>
+                       
     </Grid>
 </Window>

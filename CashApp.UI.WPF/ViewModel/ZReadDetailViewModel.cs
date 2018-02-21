@@ -43,12 +43,15 @@ namespace CashApp.UI.WPF.ViewModel
                 ? await _zReadRepository.GetByIdAsync(Id)
                 : CreateNewZRead();
 
+            //Id = zread.Id;
+
             InitializeZRead((ZRead)zread);
         }
 
         private void InitializeZRead(ZRead zread)
         {
             ZRead = new ZReadModelWrapper(zread);
+            Id = ZRead.Id;
             ZRead.PropertyChanged += (s, e) =>
                 {
                     if (!HasChanges)
@@ -60,8 +63,18 @@ namespace CashApp.UI.WPF.ViewModel
                     {
                         ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
                     }
+                    if(e.PropertyName == nameof(ZRead.ZReadDate))
+                    {
+                        SetTitle();
+                    }
                 };
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            SetTitle();
+        }
+
+        private void SetTitle()
+        {
+            Title = ZRead.ZReadDate.ToShortDateString();
         }
 
         private ZRead CreateNewZRead()
@@ -96,6 +109,7 @@ namespace CashApp.UI.WPF.ViewModel
         {
             await _zReadRepository.SaveAsync();
             HasChanges = _zReadRepository.HasChanges();
+            Id = ZRead.Id;
             RaiseDetailSavedEvent(ZRead.Model.Id, ZRead.Model.ZReadDate.ToShortDateString());
         }
     }

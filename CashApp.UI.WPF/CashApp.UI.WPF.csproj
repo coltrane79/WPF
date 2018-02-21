@@ -118,6 +118,7 @@
     <Compile Include="Data\Repositories\IZReadRepository.cs" />
     <Compile Include="Data\Repositories\ZReadRespository.cs" />
     <Compile Include="Event\AfterDeletedEvent.cs" />
+    <Compile Include="Event\AfterDetailClosedEvent.cs" />
     <Compile Include="Event\AfterSavedEvent.cs" />
     <Compile Include="Event\OpenDetailEvent.cs" />
     <Compile Include="ModelWrapper\BalanceSheetModelWrapper.cs" />

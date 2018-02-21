@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Events;
 using System.Threading.Tasks;
+using System;
 
 namespace CashApp.UI.WPF.ViewModel
 {
@@ -9,16 +10,29 @@ namespace CashApp.UI.WPF.ViewModel
     {
         protected readonly IEventAggregator EventAggregator;
         private bool _hasChanges;
+        private int _id;
 
         public DetailViewModelBase(IEventAggregator eventAggregator)
         {
             EventAggregator = eventAggregator;
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             DeleteCommand = new DelegateCommand(OnDeleteExecute);
+            DetailClose = new DelegateCommand(OnDetailClose);
+        }
+
+        private void OnDetailClose()
+        {
+            EventAggregator.GetEvent<AfterDetailClosedEvent>()
+                .Publish(new AfterDetailCloseEventArgs
+                {
+                    Id = this._id,
+                    ViewModelName = this.GetType().Name
+                });
         }
 
         public abstract Task LoadAsync(int? Id);
-       
+
+        public DelegateCommand DetailClose { get; set; }
         public DelegateCommand SaveCommand { get; private set; }
         public DelegateCommand DeleteCommand { get; private set; }
 
@@ -35,6 +49,26 @@ namespace CashApp.UI.WPF.ViewModel
                 }
             }
         }
+
+        private string _title;
+
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public int Id
+        {
+            get { return _id; }
+            protected set { _id = value; }
+        }
+
 
         protected abstract void OnDeleteExecute();
         protected abstract bool OnSaveCanExecute();

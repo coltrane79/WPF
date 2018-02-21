@@ -8,17 +8,18 @@ using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System;
 
 namespace CashApp.UI.WPF.ViewModel
 {
     public class BalanceSheetItemDetailViewModel : DetailViewModelBase, IBalanceSheetItemDetailViewModel
     {
-       
+
         private BalanceSheetModelWrapper _cashBalanceSheet;
-        private IBalanceSheetRespository _balanceSheetRepository;       
+        private IBalanceSheetRespository _balanceSheetRepository;
         private ISalesPersonLookupItem _salesPersonLookupItem;
         private IZReadsLookup _zReadsLookup;
-        private IZReadRepository _zReadRepository;        
+        private IZReadRepository _zReadRepository;
         private ZReadModelWrapper _selectedZRead;
         public BalanceSheetItemDetailViewModel(IBalanceSheetRespository BalanceSheetRepository,
             IEventAggregator eventAggregator,
@@ -26,11 +27,11 @@ namespace CashApp.UI.WPF.ViewModel
             IZReadsLookup zReadsLookup,
             IZReadRepository ZReadRepository) : base(eventAggregator)
         {
-            _balanceSheetRepository = BalanceSheetRepository;            
+            _balanceSheetRepository = BalanceSheetRepository;
             _salesPersonLookupItem = salesPersonLookupItem;
             _zReadsLookup = zReadsLookup;
             _zReadRepository = ZReadRepository;
-           
+
             AddZread = new DelegateCommand(OnAddZRead);
             DeleteZread = new DelegateCommand(OnDeleteZRead, OnDeleteZReadCanExecute);
 
@@ -60,15 +61,16 @@ namespace CashApp.UI.WPF.ViewModel
         }
         protected override bool OnSaveCanExecute()
         {
-            return CashBalanceSheetProperty != null 
-                && !CashBalanceSheetProperty.HasErrors 
+            return CashBalanceSheetProperty != null
+                && !CashBalanceSheetProperty.HasErrors
                 && HasChanges;
         }
         protected override async void OnSaveExecute()
         {
             await _balanceSheetRepository.SaveAsync();
             HasChanges = _balanceSheetRepository.HasChanges();
-            RaiseDetailSavedEvent(CashBalanceSheetProperty.Id, CashBalanceSheetProperty.Date.ToShortDateString());            
+            Id = CashBalanceSheetProperty.Id;
+            RaiseDetailSavedEvent(CashBalanceSheetProperty.Id, CashBalanceSheetProperty.Date.ToShortDateString());
         }
         public BalanceSheetModelWrapper CashBalanceSheetProperty
         {
@@ -82,7 +84,7 @@ namespace CashApp.UI.WPF.ViewModel
         public ICommand AddZread { get; set; }
         public ICommand DeleteZread { get; set; }
         public ObservableCollection<SalesPersonLookupItem> SalesPeople { get; }
-        public ObservableCollection<ZReadModelWrapper> ZReads { get; private set; }        
+        public ObservableCollection<ZReadModelWrapper> ZReads { get; private set; }
         public override async Task LoadAsync(int? Id)
         {
             var newBalanceSheet = Id.HasValue
@@ -90,6 +92,8 @@ namespace CashApp.UI.WPF.ViewModel
                 : CreateNewBalanceSheet();
 
             CashBalanceSheetProperty = new BalanceSheetModelWrapper(newBalanceSheet);
+
+            Id = CashBalanceSheetProperty.Id;
 
 
             CashBalanceSheetProperty.PropertyChanged += (s, e) =>
@@ -102,13 +106,24 @@ namespace CashApp.UI.WPF.ViewModel
                 {
                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
                 }
+                if(e.PropertyName == nameof(CashBalanceSheet.Date))
+                {
+                    SetTitle();
+                }
             };
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            SetTitle();
 
             await LoadSalesPeople();
 
             await LoadZReads();
         }
+
+        private void SetTitle()
+        {
+            Title = CashBalanceSheetProperty.Date.ToShortDateString();
+        }
+
         private async Task LoadSalesPeople()
         {
             SalesPeople.Clear();
@@ -156,7 +171,7 @@ namespace CashApp.UI.WPF.ViewModel
             {
                 _balanceSheetRepository.DeletebyIdAsync(CashBalanceSheetProperty.Model);
                 await _balanceSheetRepository.SaveAsync();
-                RaiseDetailDeletedEvent(CashBalanceSheetProperty.Id);                
+                RaiseDetailDeletedEvent(CashBalanceSheetProperty.Id);
             }
         }
     }
