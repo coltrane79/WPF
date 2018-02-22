@@ -21,7 +21,7 @@ namespace CashApp.UI.WPF.ViewModel
         public ZReadDetailViewModel(IEventAggregator eventAggregator,
             IMessageDialogService messageDialog,
             IZReadRepository zReadRepository)
-            : base(eventAggregator)
+            : base(eventAggregator, messageDialog)
         {
             _messageDialog = messageDialog;
             _zReadRepository = zReadRepository;

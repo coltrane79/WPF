@@ -3,18 +3,21 @@ using Prism.Commands;
 using Prism.Events;
 using System.Threading.Tasks;
 using System;
+using CashApp.UI.WPF.Views.Services;
 
 namespace CashApp.UI.WPF.ViewModel
 {
     public abstract class DetailViewModelBase : ViewModelBase, IItemDetailViewModel
     {
         protected readonly IEventAggregator EventAggregator;
+        private IMessageDialogService _messageDialogService;
         private bool _hasChanges;
         private int _id;
 
-        public DetailViewModelBase(IEventAggregator eventAggregator)
+        public DetailViewModelBase(IEventAggregator eventAggregator, IMessageDialogService MessageDialogService)
         {
             EventAggregator = eventAggregator;
+            _messageDialogService = MessageDialogService;
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             DeleteCommand = new DelegateCommand(OnDeleteExecute);
             DetailClose = new DelegateCommand(OnDetailClose);
@@ -22,6 +25,15 @@ namespace CashApp.UI.WPF.ViewModel
 
         private void OnDetailClose()
         {
+            if (HasChanges)
+            {
+                var result = _messageDialogService.ShowOkCancelDialog("Leave Un-Saved Data?", "Question");
+                if(result == MessageDialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+
             EventAggregator.GetEvent<AfterDetailClosedEvent>()
                 .Publish(new AfterDetailCloseEventArgs
                 {

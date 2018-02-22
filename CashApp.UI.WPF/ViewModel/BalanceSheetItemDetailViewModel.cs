@@ -25,7 +25,8 @@ namespace CashApp.UI.WPF.ViewModel
             IEventAggregator eventAggregator,
             ISalesPersonLookupItem salesPersonLookupItem,
             IZReadsLookup zReadsLookup,
-            IZReadRepository ZReadRepository) : base(eventAggregator)
+            IZReadRepository ZReadRepository,
+            IMessageDialogService messageDialogService) : base(eventAggregator, messageDialogService)
         {
             _balanceSheetRepository = BalanceSheetRepository;
             _salesPersonLookupItem = salesPersonLookupItem;
