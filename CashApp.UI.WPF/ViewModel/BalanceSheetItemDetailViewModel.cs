@@ -117,11 +117,14 @@ namespace CashApp.UI.WPF.ViewModel
                 ? await _balanceSheetRepository.GetByIdAsync(Id.Value)
                 : await CreateNewBalanceSheet();
 
-            CashBalanceSheetProperty = new BalanceSheetModelWrapper(newBalanceSheet);
+            InitializeBalanceSheet(newBalanceSheet);
+            
+        }
 
+        private async void InitializeBalanceSheet(CashBalanceSheet balanceSheet)
+        {
+            CashBalanceSheetProperty = new BalanceSheetModelWrapper(balanceSheet);
             Id = CashBalanceSheetProperty.Id;
-
-
             CashBalanceSheetProperty.PropertyChanged += (s, e) =>
             {
                 if (!HasChanges)
@@ -132,7 +135,7 @@ namespace CashApp.UI.WPF.ViewModel
                 {
                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
                 }
-                if(e.PropertyName == nameof(CashBalanceSheet.Date))
+                if (e.PropertyName == nameof(CashBalanceSheet.Date))
                 {
                     SetTitle();
                 }
