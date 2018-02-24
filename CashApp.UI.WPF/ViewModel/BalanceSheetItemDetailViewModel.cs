@@ -73,7 +73,9 @@ namespace CashApp.UI.WPF.ViewModel
         {
             try
             {
-                await _balanceSheetRepository.SaveAsync();                                
+                await _balanceSheetRepository.SaveAsync();
+                HasChanges = _balanceSheetRepository.HasChanges();
+                RaiseDetailSavedEvent(CashBalanceSheetProperty.Id, CashBalanceSheetProperty.Date.ToShortDateString());
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -87,12 +89,14 @@ namespace CashApp.UI.WPF.ViewModel
                     var entry = ex.Entries.Single();
                     entry.OriginalValues.SetValues(entry.GetDatabaseValues());
                     await _balanceSheetRepository.SaveAsync();
+                    HasChanges = _balanceSheetRepository.HasChanges();
                     RaiseDetailSavedEvent(CashBalanceSheetProperty.Id, CashBalanceSheetProperty.Date.ToShortDateString());
                 }
                 else
                 {
                     await ex.Entries.Single().ReloadAsync();
                     await LoadAsync(CashBalanceSheetProperty.Id);
+                    HasChanges = _balanceSheetRepository.HasChanges();
                 }
                
             }

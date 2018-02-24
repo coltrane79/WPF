@@ -8,7 +8,7 @@
         xmlns:viewModel="clr-namespace:CashApp.UI.WPF.ViewModel"
         xmlns:local="clr-namespace:CashApp.UI.WPF"
         mc:Ignorable="d"
-        Title="Cash Balance Sheet Organizer" Height="550" Width="800"
+        Title="Cash Balance Sheet Organizer" Height="850" Width="750"
         Loaded="Window_Loaded">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:BalanceSheetNavidationViewModel}">
@@ -23,7 +23,7 @@
     </Window.Resources>
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="35"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
