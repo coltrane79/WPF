@@ -1,4 +1,5 @@
 ﻿using CashApp.UI.WPF.ViewModel;
+using MahApps.Metro.Controls;
 using System.Windows;
 
 namespace CashApp.UI.WPF
@@ -8,7 +9,7 @@ namespace CashApp.UI.WPF
     /// </summary>
     ///    
 
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
 
         private MainViewModel _viewModel;

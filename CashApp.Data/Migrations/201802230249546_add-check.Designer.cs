@@ -7,13 +7,13 @@ namespace CashApp.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddRequiredFieldinZReadTableforDate : IMigrationMetadata
+    public sealed partial class addcheck : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddRequiredFieldinZReadTableforDate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addcheck));
         
         string IMigrationMetadata.Id
         {
-            get { return "201801281646561_Add Required Field in ZRead Table for Date"; }
+            get { return "201802230249546_add-check"; }
         }
         
         string IMigrationMetadata.Source

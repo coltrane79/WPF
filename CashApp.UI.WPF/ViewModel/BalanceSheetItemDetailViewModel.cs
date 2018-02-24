@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
 
 namespace CashApp.UI.WPF.ViewModel
 {
@@ -20,7 +22,8 @@ namespace CashApp.UI.WPF.ViewModel
         private ISalesPersonLookupItem _salesPersonLookupItem;
         private IZReadsLookup _zReadsLookup;
         private IZReadRepository _zReadRepository;
-        private ZReadModelWrapper _selectedZRead;
+        private ZReadModelWrapper _selectedZRead;      
+
         public BalanceSheetItemDetailViewModel(IBalanceSheetRespository BalanceSheetRepository,
             IEventAggregator eventAggregator,
             ISalesPersonLookupItem salesPersonLookupItem,
@@ -68,10 +71,32 @@ namespace CashApp.UI.WPF.ViewModel
         }
         protected override async void OnSaveExecute()
         {
-            await _balanceSheetRepository.SaveAsync();
-            HasChanges = _balanceSheetRepository.HasChanges();
-            Id = CashBalanceSheetProperty.Id;
-            RaiseDetailSavedEvent(CashBalanceSheetProperty.Id, CashBalanceSheetProperty.Date.ToShortDateString());
+            try
+            {
+                await _balanceSheetRepository.SaveAsync();                                
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                var result = _messageDialogService.ShowOkCancelDialog("An Update has Occured after you have loaded the record",
+                    "Continue?");
+                if(result == MessageDialogResult.Ok)
+                {
+                    //HasChanges = _balanceSheetRepository.HasChanges();
+                    //Id = CashBalanceSheetProperty.Id;
+                    //RaiseDetailSavedEvent(CashBalanceSheetProperty.Id, CashBalanceSheetProperty.Date.ToShortDateString());
+                    var entry = ex.Entries.Single();
+                    entry.OriginalValues.SetValues(entry.GetDatabaseValues());
+                    await _balanceSheetRepository.SaveAsync();
+                    RaiseDetailSavedEvent(CashBalanceSheetProperty.Id, CashBalanceSheetProperty.Date.ToShortDateString());
+                }
+                else
+                {
+                    await ex.Entries.Single().ReloadAsync();
+                    await LoadAsync(CashBalanceSheetProperty.Id);
+                }
+               
+            }
+            
         }
         public BalanceSheetModelWrapper CashBalanceSheetProperty
         {
@@ -90,7 +115,7 @@ namespace CashApp.UI.WPF.ViewModel
         {
             var newBalanceSheet = Id.HasValue
                 ? await _balanceSheetRepository.GetByIdAsync(Id.Value)
-                : CreateNewBalanceSheet();
+                : await CreateNewBalanceSheet();
 
             CashBalanceSheetProperty = new BalanceSheetModelWrapper(newBalanceSheet);
 
@@ -154,10 +179,11 @@ namespace CashApp.UI.WPF.ViewModel
                 ((DelegateCommand)DeleteZread).RaiseCanExecuteChanged();
             }
         }
-        private CashBalanceSheet CreateNewBalanceSheet()
+        private async Task<CashBalanceSheet> CreateNewBalanceSheet()
         {
             var balanceSheet = new CashBalanceSheet();
             _balanceSheetRepository.Add(balanceSheet);
+            await _balanceSheetRepository.SaveAsync();
             return balanceSheet;
         }
         private bool OnDeleteCanExecute()

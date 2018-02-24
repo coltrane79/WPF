@@ -24,6 +24,9 @@ namespace CashApp.Model.Model
         public decimal Returns { get; set; } = 0.00M;
         public ZRead DailyZread { get; set; }
         public decimal Variance { get; set; } = 0.00M;
+        [Timestamp]
+        [ConcurrencyCheck]
+        public byte[] RowVersion { get; set; }  
         public CashBalanceSheet()
         {
             Date = DateTime.Today;

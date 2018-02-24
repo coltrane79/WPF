@@ -42,7 +42,7 @@
                        ItemsSource="{Binding SalesPeople}"
                        DisplayMemberPath="DisplayMember"
                        SelectedValuePath="Id"
-                      SelectedValue="{Binding CashBalanceSheetProperty.SalesPerson.Id, Mode=TwoWay}"/>
+                       SelectedValue="{Binding CashBalanceSheetProperty.SalesPerson.Id, Mode=TwoWay}"/>
             <TextBox Width="100" HorizontalAlignment="Left" Margin="0,7,0,0" 
                      Text="{Binding CashBalanceSheetProperty.Date, 
                                     Mode=TwoWay, 

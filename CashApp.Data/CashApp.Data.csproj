@@ -48,17 +48,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CashAppDbContext.cs" />
-    <Compile Include="Migrations\201801202131505_InitialBuild.cs" />
-    <Compile Include="Migrations\201801202131505_InitialBuild.Designer.cs">
-      <DependentUpon>201801202131505_InitialBuild.cs</DependentUpon>
+    <Compile Include="Migrations\201802230230186_Initial.cs" />
+    <Compile Include="Migrations\201802230230186_Initial.Designer.cs">
+      <DependentUpon>201802230230186_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201801281644194_Add Required Fields.cs" />
-    <Compile Include="Migrations\201801281644194_Add Required Fields.Designer.cs">
-      <DependentUpon>201801281644194_Add Required Fields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801281646561_Add Required Field in ZRead Table for Date.cs" />
-    <Compile Include="Migrations\201801281646561_Add Required Field in ZRead Table for Date.Designer.cs">
-      <DependentUpon>201801281646561_Add Required Field in ZRead Table for Date.cs</DependentUpon>
+    <Compile Include="Migrations\201802230249546_add-check.cs" />
+    <Compile Include="Migrations\201802230249546_add-check.Designer.cs">
+      <DependentUpon>201802230249546_add-check.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,14 +70,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801202131505_InitialBuild.resx">
-      <DependentUpon>201801202131505_InitialBuild.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201802230230186_Initial.resx">
+      <DependentUpon>201802230230186_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801281644194_Add Required Fields.resx">
-      <DependentUpon>201801281644194_Add Required Fields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801281646561_Add Required Field in ZRead Table for Date.resx">
-      <DependentUpon>201801281646561_Add Required Field in ZRead Table for Date.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201802230249546_add-check.resx">
+      <DependentUpon>201802230249546_add-check.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -10,7 +10,7 @@ namespace CashApp.UI.WPF.ViewModel
     public abstract class DetailViewModelBase : ViewModelBase, IItemDetailViewModel
     {
         protected readonly IEventAggregator EventAggregator;
-        private IMessageDialogService _messageDialogService;
+        protected IMessageDialogService _messageDialogService;
         private bool _hasChanges;
         private int _id;
 
